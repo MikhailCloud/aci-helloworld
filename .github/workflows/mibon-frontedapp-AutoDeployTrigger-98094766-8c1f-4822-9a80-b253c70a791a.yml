@@ -39,7 +39,21 @@ jobs:
           file: ./Dockerfile
           context: ./
 
+      - name: Log in to cloud evolution container registry
+        uses: docker/login-action@v1
+        with:
+          registry: cr.cloud.ru/887656ef-a8db-4cb2-9786-13f9b3686d34/
+          username: ${{ secrets.EVO_CR_LOGIN }}
+          password: ${{ secrets.EVO_CR_PWD }}
 
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: cr.cloud.ru/887656ef-a8db-4cb2-9786-13f9b3686d34/mibon-frontedapp:${{ github.sha }}
+          file: ./Dockerfile
+          context: ./
+          
   deploy:
     runs-on: ubuntu-latest
     needs: build
