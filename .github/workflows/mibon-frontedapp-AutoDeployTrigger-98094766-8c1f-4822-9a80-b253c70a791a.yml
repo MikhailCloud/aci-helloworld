@@ -24,21 +24,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Log in to container registry
-        uses: docker/login-action@v1
-        with:
-          registry: mibon2.azurecr.io
-          username: ${{ secrets.MIBONFRONTEDAPP_REGISTRY_USERNAME }}
-          password: ${{ secrets.MIBONFRONTEDAPP_REGISTRY_PASSWORD }}
-
-      - name: Build and push container image to registry
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: mibon2.azurecr.io/mibon-frontedapp:${{ github.sha }}
-          file: ./Dockerfile
-          context: ./
-
       - name: Log in to cloud evolution container registry
         uses: docker/login-action@v1
         with:
@@ -46,7 +31,7 @@ jobs:
           username: ${{ secrets.EVO_CR_LOGIN }}
           password: ${{ secrets.EVO_CR_PWD }}
 
-      - name: Build and push container image to registry
+      - name: Build and push container image to cloud evolution registry
         uses: docker/build-push-action@v2
         with:
           push: true
@@ -54,21 +39,4 @@ jobs:
           file: ./Dockerfile
           context: ./
           
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    
-    steps:
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.MIBONFRONTEDAPP_AZURE_CREDENTIALS }}
-
-
-      - name: Deploy to containerapp
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n mibon-frontedapp -g mibon5test --server mibon2.azurecr.io --username  ${{ secrets.MIBONFRONTEDAPP_REGISTRY_USERNAME }} --password ${{ secrets.MIBONFRONTEDAPP_REGISTRY_PASSWORD }}
-            az containerapp update -n mibon-frontedapp -g mibon5test --image mibon2.azurecr.io/mibon-frontedapp:${{ github.sha }}
+ 
