@@ -27,7 +27,7 @@ jobs:
       - name: Log in to cloud evolution container registry
         uses: docker/login-action@v1
         with:
-          registry: cr.cloud.ru/887656ef-a8db-4cb2-9786-13f9b3686d34/
+          registry: 887656ef-a8db-4cb2-9786-13f9b3686d34.cr.cloud.ru
           username: ${{ secrets.EVO_CR_LOGIN }}
           password: ${{ secrets.EVO_CR_PWD }}
 
@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: cr.cloud.ru/887656ef-a8db-4cb2-9786-13f9b3686d34/multiarch-test:${{ github.sha }}
+          tags: 887656ef-a8db-4cb2-9786-13f9b3686d34.cr.cloud.ru/multiarch-test:${{ github.sha }}
           file: ./Dockerfile
           context: ./
           
