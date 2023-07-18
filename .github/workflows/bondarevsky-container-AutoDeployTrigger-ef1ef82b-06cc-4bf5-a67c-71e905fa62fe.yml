@@ -1,0 +1,42 @@
+name: Trigger auto deployment for bondarevsky-container
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ master ]
+    paths:
+    - '**'
+    - '.github/workflows/bondarevsky-container-AutoDeployTrigger-ef1ef82b-06cc-4bf5-a67c-71e905fa62fe.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.BONDAREVSKYCONTAINER_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: 887656ef-a8db-4cb2-9786-13f9b3686d34.cr.cloud.ru
+          registryUsername: ${{ secrets.BONDAREVSKYCONTAINER_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.BONDAREVSKYCONTAINER_REGISTRY_PASSWORD }}
+          containerAppName: bondarevsky-container
+          resourceGroup: mibonapim
+          imageToBuild: 887656ef-a8db-4cb2-9786-13f9b3686d34.cr.cloud.ru/webapplication2:${{ github.sha }}
+          
+
+     
+
