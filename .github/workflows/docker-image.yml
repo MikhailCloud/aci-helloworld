@@ -3,6 +3,9 @@ name: Docker Image CI
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - '!.github/workflows/**'
+      - '.github/workflows/docker-image.yml'
 env:
   EVOAR_URI: demo1204.cr.cloud.ru
 jobs:
