@@ -18,13 +18,14 @@ jobs:
     - name: get access token
       shell: bash
       run: | 
-        ACCESS_TOKEN=$(curl -i --data-urlencode "grant_type=client_credentials" \
+        ACCESS_TOKEN=$(curl --data-urlencode "grant_type=client_credentials" \
         --data-urlencode "client_id=$KEYID" \
         --data-urlencode "client_secret=$KEYSECRET" \
-        "https://auth.iam.sbercloud.ru/auth/system/openid/token"\
+        "https://auth.iam.sbercloud.ru/auth/system/openid/token" \
         | jq -r '.access_token')
+
         
-         echo "ACCESS_TOKEN=$ACCESS_TOKEN"
+         echo "ACCESS_TOKEN==$ACCESS_TOKEN"
 
         
       env:
