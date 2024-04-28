@@ -18,7 +18,8 @@ jobs:
       run: | 
         curl -i --data-urlencode "grant_type=client_credentials" \
         --data-urlencode "client_id=311c6bb185afaad53314fc3976e6b39e" \
-        --data-urlencode "client_secret=443f8fe8df8c749c09086dcac18ed162" "https://auth.iam.sbercloud.ru/auth/system/openid/token"
+        --data-urlencode "client_secret=443f8fe8df8c749c09086dcac18ed162" \
+        "https://auth.iam.sbercloud.ru/auth/system/openid/token" | jq -j '.access_token'
       env:
         username: ${{ secrets.EVOAR_KEYID }}
         password: ${{ secrets.EVOAR_KEYSECRET }}
