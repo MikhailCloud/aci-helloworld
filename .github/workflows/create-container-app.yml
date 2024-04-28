@@ -22,7 +22,7 @@ jobs:
         --data-urlencode "client_secret=$KEYSECRET" \
         "https://auth.iam.sbercloud.ru/auth/system/openid/token"\
         ) \
-        echo "echo full token"
+        echo "echo full token" \
         echo $TOKEN
         
       env:
