@@ -30,7 +30,11 @@ jobs:
         registry: ${{ env.EVOAR_URI }}
         username: ${{ secrets.EVOAR_KEYID }}
         password: ${{ secrets.EVOAR_KEYSECRET }}
-        
+     
+    - name: Building image and pushing to registry using Docker
+      run: |
+          docker build . -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f {{ steps.oryx.outputs.dockerfile-path }}
+          
     - name: Build and push Backend container image to cloud evolution registry
       uses: docker/build-push-action@v5
       with:
