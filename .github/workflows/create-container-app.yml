@@ -53,7 +53,7 @@ jobs:
                   }
               },
               "timeout": "600s",
-              "image": "cr.cloud.ru/9719687e-d9a4-446f-9856-e3d8cc863b52/hello-restapi-python:latest@sha256:1ec98f8531824e2bab0baa345651736b61cba1369d4a0a6c4e3fbbb75d531553",
+              "image": "demo1204.cr.cloud.ru/helloworld@sha256:6bb368106f10ed800455d21da58e8d88a23da8f44fc428b9520c243b1e376fdc",
               "port": 8080,
               "command": "[]",
               "command_args": "[]",
