@@ -22,3 +22,13 @@ jobs:
          platform: "nodejs"
          platform-version: 20.11.1
          source-directory: app
+
+    - name: Build and push Backend container image to cloud evolution registry
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: ${{ steps.backend.outputs.tags }}
+        platform: linux/amd64
+        provenance: false
+        file: ${{ steps.oryx.outputs.dockerfile-path }}
+        context: ./
