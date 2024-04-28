@@ -1,5 +1,8 @@
 name: Docker Image CI
 
+on:
+  push:
+    branches: [ "master" ]
 env:
   EVOAR_URI: demo1204.cr.cloud.ru
 jobs:
@@ -15,6 +18,8 @@ jobs:
       uses: microsoft/oryx/actions/oryx-dockerfile@main
       with: 
          source-directory: python
+         platform: python
+         platform-version: 3.7
 
     - name: Log in to Evolution Artifact Registry
       uses: docker/login-action@v2
