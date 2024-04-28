@@ -13,20 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
 
-    
 
     - name: get access token
       run: | 
-        token=$(curl -i --data-urlencode "grant_type=client_credentials" \
-        --data-urlencode "client_id=311c6bb185afaad53314fc3976e6b39e" \
-        --data-urlencode "client_secret=443f8fe8df8c749c09086dcac18ed162" \
+        curl -i --data-urlencode "grant_type=client_credentials" \
+        --data-urlencode "client_id=$KEYID" \
+        --data-urlencode "client_secret=$KEYSECRET" \
         "https://auth.iam.sbercloud.ru/auth/system/openid/token"\
-        | jq -r '.access_token')
-
-        echo "$token"
+        
       env:
-        username: ${{ secrets.EVOAR_KEYID }}
-        password: ${{ secrets.EVOAR_KEYSECRET }}
+        KEYID: ${{ secrets.EVOAR_KEYID }}
+        KEYSECRET: ${{ secrets.EVOAR_KEYSECRET }}
   
