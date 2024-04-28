@@ -3,12 +3,12 @@ name: Trigger auto deployment for mibon-frontedapp
 # When this action will be executed
 on:
   # Automatically trigger it when detected changes in repo
-  push:
-    branches: 
-      [ master ]
-    paths:
-    - '**'
-    - '.github/workflows/mibon-frontedapp-AutoDeployTrigger-98094766-8c1f-4822-9a80-b253c70a791a.yml'
+  # push:
+  #   branches: 
+  #     [ master ]
+  #   paths:
+  #   - '**'
+  #   - '.github/workflows/mibon-frontedapp-AutoDeployTrigger-98094766-8c1f-4822-9a80-b253c70a791a.yml'
 
   # Allow mannually trigger 
   workflow_dispatch:      
