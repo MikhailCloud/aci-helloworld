@@ -20,7 +20,7 @@ jobs:
       uses: microsoft/oryx/actions/oryx-dockerfile@main
       with: 
          platform: "nodejs"
-         platform-version: 20.11.1
+         platform-version: 16
          source-directory: app
 
     - name: Build and push Backend container image to cloud evolution registry
