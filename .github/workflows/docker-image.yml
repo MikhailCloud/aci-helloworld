@@ -19,9 +19,7 @@ jobs:
       id: oryx
       uses: microsoft/oryx/actions/oryx-dockerfile@main
       with: 
-         platform: "nodejs"
-         platform-version: 16
-         source-directory: app
+         source-directory: python
 
     - name: Log in to Evolution Artifact Registry
       uses: docker/login-action@v2
