@@ -27,7 +27,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ steps.backend.outputs.tags }}
+        tags: latest
         platform: linux/amd64
         provenance: false
         file: ${{ steps.oryx.outputs.dockerfile-path }}
