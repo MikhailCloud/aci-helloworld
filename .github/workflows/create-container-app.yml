@@ -29,37 +29,37 @@ jobs:
          echo "ACCESS_TOKEN==$ACCESS_TOKEN" \
 
         curl --location 'https://containers.api.cloud.ru/v1beta/containers' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImEyMjM3ZDhhLWQ0ZDQtNDA5Yi04ZTMxLWM3NGJhYTZhM2NjYiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiaWFtIl0sImF1dGhfdGltZSI6MTcxNDMwNjAzMiwiYXpwIjoiMzExYzZiYjE4NWFmYWFkNTMzMTRmYzM5NzZlNmIzOWUiLCJlbWFpbCI6ImJvbmRhcmV2c2t5QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJleHAiOjE3MTQzMDk2MzIsImZhbWlseV9uYW1lIjoi0JHQvtC90LTQsNGA0LXQstGB0LrQuNC5IiwiZ2l2ZW5fbmFtZSI6ItCc0LjRhdCw0LjQuyIsImlhdCI6MTcxNDMwNjAzMiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmlhbS5zYmVyY2xvdWQucnUvYXV0aC9zeXN0ZW0iLCJqdGkiOiJkZGE4YmQzYS05MGIwLTQzOGEtOTI4Yi1kZjVkZTJmNzUwYzkiLCJuYmYiOjE3MTQzMDYwMzIsIm5vbmNlIjoiIiwicGhvbmVfbnVtYmVyIjoiNzk2NTI4NjY3NTUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJib25kYXJldnNreUBnbWFpbC5jb20iLCJyZWFsbV9hY2Nlc3MiOm51bGwsInJlc291cmNlX2FjY2VzcyI6e30sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgcm9sZXMiLCJzdWIiOiIyZGQyZDNlMy05MmI4LTRhOWUtOTUxYS1lZDI5ZTkyOWJiNDIiLCJzdWJfaWQiOiIyZGQyZDNlMy05MmI4LTRhOWUtOTUxYS1lZDI5ZTkyOWJiNDIiLCJzdWJfdHlwZSI6InVzZXIiLCJ0eXAiOiJCZWFyZXIifQ.s8WFmZxZm954ejv-4KVDAhoONzchrYz-HWu1Gf7dd__yG8RUPHkL968XQWB7S9_Ukat4yGdrhp0ZYv0nF4yicgXgaCJQB9Y0xa-LDTQoWltkBUFHBoyc3Pv0eyqzIchqDnE5C_pVxkSL_5a1c_vkWZeP4KdLQiMxfq5pGm9mN-wIfTWon6glY8OI6K76Z5yZXvIzk1BIy1ibW2hZ_H1lJJk5sWFq1WreOSu4QyKZLvx5dmuJlv1NHJKBMhs0t8_L5T_F26R0FMtp1S7fWt_Rko_rB-BCuX9Gcgbk5i1XeiMO6qNihmXVg4t7ffrfy4TQ7WUyLhNg3A_sXa2KC0fEhA' \
---data-raw '{
-    "project_id": "06363f30-bde4-41a2-a96f-398bf8bd830e",
-    "name": "public-api-devssfd2",
-    "resources": {
-        "limits": {
-            "cpu": "0.1",
-            "memory": "256Mi"
-        },
-        "requests": {
-            "cpu": "0.1",
-            "memory": "256Mi"
-        }
-    },
-    "scaling": {
-        "min_instance_count": 0,
-        "max_instance_count": 1,
-        "rule": {
-            "type": "rps",
-            "value": 200
-        }
-    },
-    "timeout": "600s",
-    "image": "cr.cloud.ru/9719687e-d9a4-446f-9856-e3d8cc863b52/hello-restapi-python:latest@sha256:1ec98f8531824e2bab0baa345651736b61cba1369d4a0a6c4e3fbbb75d531553",
-    "port": 8080,
-    "command": "[]",
-    "command_args": "[]",
-    "protocol": "http_1",
-    "log_group_id": "10d58b5b-4093-4064-8e5e-4498d2f19833"
-}'
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer $ACCESS_TOKEN' \
+        --data-raw '{ 
+              "project_id": "06363f30-bde4-41a2-a96f-398bf8bd830e",
+              "name": "public-api-test",
+              "resources": {
+                  "limits": {
+                      "cpu": "0.1",
+                      "memory": "256Mi"
+                  },
+                  "requests": {
+                      "cpu": "0.1",
+                      "memory": "256Mi"
+                  }
+              },
+              "scaling": {
+                  "min_instance_count": 0,
+                  "max_instance_count": 1,
+                  "rule": {
+                      "type": "rps",
+                      "value": 200
+                  }
+              },
+              "timeout": "600s",
+              "image": "cr.cloud.ru/9719687e-d9a4-446f-9856-e3d8cc863b52/hello-restapi-python:latest@sha256:1ec98f8531824e2bab0baa345651736b61cba1369d4a0a6c4e3fbbb75d531553",
+              "port": 8080,
+              "command": "[]",
+              "command_args": "[]",
+              "protocol": "http_1",
+              "log_group_id": "10d58b5b-4093-4064-8e5e-4498d2f19833"
+          }'
         
       env:
         KEYID: ${{ secrets.EVOAR_KEYID }}
