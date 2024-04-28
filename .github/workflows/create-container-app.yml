@@ -21,6 +21,7 @@ jobs:
         --data-urlencode "client_id=$KEYID" \
         --data-urlencode "client_secret=$KEYSECRET" \
         "https://auth.iam.sbercloud.ru/auth/system/openid/token"\
+        | jq -r '.access_token'
         
       env:
         KEYID: ${{ secrets.EVOAR_KEYID }}
