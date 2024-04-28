@@ -20,4 +20,5 @@ jobs:
       uses: microsoft/oryx/actions/oryx-dockerfile@main
       with: 
          platform: "nodejs"
+         platform-version: 20.11.1
          source-directory: app
