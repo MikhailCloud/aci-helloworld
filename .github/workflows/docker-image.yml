@@ -1,10 +1,5 @@
 name: Docker Image CI
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 env:
   EVOAR_URI: demo1204.cr.cloud.ru
 jobs:
