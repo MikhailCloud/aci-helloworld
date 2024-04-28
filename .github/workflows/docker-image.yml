@@ -20,4 +20,4 @@ jobs:
       uses: microsoft/oryx/actions/oryx-dockerfile@main
       with: 
          platform: "nodejs"
-         source-directory: ./app
+         source-directory: app
