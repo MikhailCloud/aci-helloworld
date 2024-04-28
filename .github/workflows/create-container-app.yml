@@ -7,7 +7,6 @@ on:
     branches: [ "master" ]
 env:
   api: https://containers.api.cloud.ru/v1beta/containers
-  payload: '
 jobs:
 
   build:
