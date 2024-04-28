@@ -30,7 +30,7 @@ jobs:
 
         curl --location 'https://containers.api.cloud.ru/v1beta/containers' \
         --header 'Content-Type: application/json' \
-        --header 'Authorization: Bearer $ACCESS_TOKEN' \
+        --header "Authorization: Bearer $ACCESS_TOKEN" \
         --data-raw '{ 
               "project_id": "06363f30-bde4-41a2-a96f-398bf8bd830e",
               "name": "public-api-test",
