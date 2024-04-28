@@ -16,15 +16,16 @@ jobs:
 
 
     - name: get access token
+      shell: bash
       run: | 
-        TOKEN=$(curl -i --data-urlencode "grant_type=client_credentials" \
+        ACCESS_TOKEN=$(curl -i --data-urlencode "grant_type=client_credentials" \
         --data-urlencode "client_id=$KEYID" \
         --data-urlencode "client_secret=$KEYSECRET" \
         "https://auth.iam.sbercloud.ru/auth/system/openid/token"\
-        ) \
-        echo "echo full token" \
-        access_token=$($TOKEN | jq -r '.access_token') \
-        echo "echo access_token = $access_token"
+        | jq -r '.access_token')
+        
+         echo "ACCESS_TOKEN=$ACCESS_TOKEN"
+
         
       env:
         KEYID: ${{ secrets.EVOAR_KEYID }}
