@@ -23,7 +23,8 @@ jobs:
         "https://auth.iam.sbercloud.ru/auth/system/openid/token"\
         ) \
         echo "echo full token" \
-        echo $TOKEN
+        access_token=$($TOKEN | jq -r '.access_token') \
+        echo "echo access_token = $access_token"
         
       env:
         KEYID: ${{ secrets.EVOAR_KEYID }}
