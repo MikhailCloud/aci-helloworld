@@ -5,7 +5,9 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+env:
+  api: https://containers.api.cloud.ru/v1beta/containers
+  payload: '
 jobs:
 
   build:
@@ -25,8 +27,40 @@ jobs:
         | jq -r '.access_token')
 
         
-         echo "ACCESS_TOKEN==$ACCESS_TOKEN"
+         echo "ACCESS_TOKEN==$ACCESS_TOKEN" \
 
+        curl --location 'https://containers.api.cloud.ru/v1beta/containers' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer $ACCESS_TOKEN' \ 
+        --data-raw '{
+                  "project_id":"06363f30-bde4-41a2-a96f-398bf8bd830e",
+                  "name":"public-api-devssfd2024",
+                  "resources":{
+                    "limits":{
+                      "cpu":"0.1",
+                      "memory":"256Mi"
+                      },
+                  "requests":{
+                    "cpu":"0.1",
+                    "memory":"256Mi"
+                    }
+                  },
+                  "scaling":{
+                    "min_instance_count":0,
+                    "max_instance_count":1,
+                    "rule":{
+                      "type":"rps",
+                      "value":200
+                    }
+                },
+                  "timeout":"600s",
+                  "image":"cr.cloud.ru/9719687e-d9a4-446f-9856-e3d8cc863b52/hello-restapi-python:latest@sha256:1ec98f8531824e2bab0baa345651736b61cba1369d4a0a6c4e3fbbb75d531553",
+                  "port":8080,
+                  "command":"[]",
+                  "command_args":"[]",
+                  "protocol":"http_1",
+                  "log_group_id":"10d58b5b-4093-4064-8e5e-4498d2f19833"
+                }'
         
       env:
         KEYID: ${{ secrets.EVOAR_KEYID }}
