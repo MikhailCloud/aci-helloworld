@@ -18,3 +18,6 @@ jobs:
     - name: Running Oryx to generate a Dockerfile
       id: oryx
       uses: microsoft/oryx/actions/oryx-dockerfile@main
+      with: 
+         platform: "nodejs"
+         source-directory: ./app
