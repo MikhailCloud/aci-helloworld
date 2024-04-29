@@ -23,9 +23,19 @@ jobs:
     #- name: The setup-tools action adds crane and yj to the environment.
     #  uses: buildpacks/github-actions/setup-tools@v5.0.0
     
-    - name: The setup-pack action adds pack to the environment.
-      uses: buildpacks/github-actions/setup-pack@v5.0.0
+    #- name: The setup-pack action adds pack to the environment.
+    #  uses: buildpacks/github-actions/setup-pack@v5.0.0
 
+    - name: Install pack CLI on non-Windows runner
+      if: ${{ runner.os != 'Windows' && env.SOURCE_CODE_DIRECTORY != ''}}
+      shell: bash
+      run: (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.27.0/pack-v0.27.0-${{ runner.os }}.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
+
+    - name: Set Oryx++ Builder as default builder
+      if: ${{ env.SOURCE_CODE_DIRECTORY != '' }}
+      shell: bash
+      run: pack config default-builder mcr.microsoft.com/oryx/builder:20230208.1
+      
     - name: Determine runtime stack if not provided
       if: ${{ env.SOURCE_CODE_DIRECTORY != '' && env.RUNTIME_STACK == '' }}
       shell: bash
@@ -50,7 +60,7 @@ jobs:
         pack build \
          ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
-          --builder cormtestacr.azurecr.io/builder:latest \
+          --builder mcr.microsoft.com/oryx/builder:20230208.1 \
           --run-image mcr.microsoft.com/oryx/${{ env.RUNTIME_STACK }}
           
     - name: pack build
