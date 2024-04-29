@@ -9,6 +9,7 @@ on:
 env:
   EVOAR_URI: demo1204.cr.cloud.ru
   SOURCE_CODE_DIRECTORY: app
+  ORYX_CLI_IMAGE: 'mcr.microsoft.com/oryx/cli:builder-debian-bullseye-20230926.1'
   ORYX_BULLSEYE_BUILDER_IMAGE: 'mcr.microsoft.com/oryx/builder:debian-bullseye-20240124.1'
 jobs:
   build:
@@ -30,6 +31,8 @@ jobs:
           # echo 'Attempting to install the pack CLI'
           # curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${tgzSuffix}.tgz" | tar -C /usr/local/bin/ --no-same-owner -xzv pack
 
+          docker run --rm -v ${{ env.SOURCE_CODE_DIRECTORY }}:/app ${{ env.ORYX_CLI_IMAGE }} /bin/bash -c "oryx dockerfile /app | head -n 1 | sed 's/ARG RUNTIME=//' >> /app/oryx-runtime.txt"
+          
           echo 'Setting the Oryx++ Builder as the default builder via the pack CLI'
           pack config default-builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
           
