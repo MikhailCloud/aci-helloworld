@@ -27,6 +27,9 @@ jobs:
     - name: pack build
       run: |
           # pack config default-builder gcr.io/buildpacks.builder:v1
+          
+          # curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${tgzSuffix}.tgz" | 'tar -C /usr/local/bin/ --no-same-owner -xzv pack
+          pack config experimental true
           pack build ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} --path ${{ env.SOURCE_CODE_DIRECTORY }} --builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
           # pack --publish  ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
