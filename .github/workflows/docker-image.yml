@@ -44,6 +44,9 @@ jobs:
       if: ${{ env.SOURCE_CODE_DIRECTORY != ''}}
       shell: bash
       run: |
+        echo 'Attempting to enable experimental features for the pack CLI'
+        pack config experimental true
+        
         pack build \
          ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
