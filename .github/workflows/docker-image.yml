@@ -26,6 +26,20 @@ jobs:
     - name: The setup-pack action adds pack to the environment.
       uses: buildpacks/github-actions/setup-pack@v5.0.0
 
+    - name: Determine runtime stack if not provided
+      if: ${{ env.SOURCE_CODE_DIRECTORY != '' && env.RUNTIME_STACK == '' }}
+      shell: bash
+      run: |
+        docker run \
+          --rm \
+          -v ${{ env.SOURCE_CODE_DIRECTORY }}:/app \
+          mcr.microsoft.com/oryx/cli:builder-debian-buster-20230208.1 \
+          /bin/bash \
+          -c "oryx dockerfile /app | head -n 1 | sed 's/ARG RUNTIME=//' >> /app/oryx-runtime.txt"
+        RUNTIME_STACK=$(head -n 1 ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt)
+        echo "RUNTIME_STACK=${RUNTIME_STACK}" >> $GITHUB_ENV
+        rm ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt
+        
     - name: Create runnable application image using Oryx++ Builder
       if: ${{ env.SOURCE_CODE_DIRECTORY != ''}}
       shell: bash
