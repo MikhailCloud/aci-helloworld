@@ -27,8 +27,8 @@ jobs:
     - name: pack build
       id: buildpack
       run: |
-          echo 'Attempting to install the pack CLI'
-          curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${tgzSuffix}.tgz" | tar -C /usr/local/bin/ --no-same-owner -xzv pack
+          # echo 'Attempting to install the pack CLI'
+          # curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${tgzSuffix}.tgz" | tar -C /usr/local/bin/ --no-same-owner -xzv pack
 
           echo 'Setting the Oryx++ Builder as the default builder via the pack CLI'
           pack config default-builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
