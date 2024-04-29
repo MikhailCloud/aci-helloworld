@@ -12,6 +12,7 @@ env:
   ORYX_CLI_IMAGE: 'mcr.microsoft.com/oryx/cli:builder-debian-bullseye-20230926.1'
   RUNTIME_STACK: 'node:16'
   ORYX_BULLSEYE_BUILDER_IMAGE: 'mcr.microsoft.com/oryx/builder:debian-bullseye-20240124.1'
+  DOCKERFILE_PATH: ''
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -102,10 +103,17 @@ jobs:
         registry: ${{ env.EVOAR_URI }}
         username: ${{ secrets.EVOAR_KEYID }}
         password: ${{ secrets.EVOAR_KEYSECRET }}
-     
+
+    - name: Check for existing Dockerfile in application source
+      if: ${{ env.DOCKERFILE_PATH == '' }}
+      shell: bash
+      run: |
+        dockerfilePath=${{ env.SOURCE_CODE_DIRECTORY }}/Dockerfile
+        if [ -f "$dockerfilePath" ]; then echo "DOCKERFILE_PATH='Dockerfile'" >> $GITHUB_ENV; fi
+        
     - name: Building image and pushing to registry using Docker
       run: |
-          docker build . -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f ${{ env.SOURCE_CODE_DIRECTORY }}
+          docker build . -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f ${{DOCKERFILE_PATH}} ${{ env.SOURCE_CODE_DIRECTORY }}
           
     - name: Build and push Backend container image to cloud evolution registry
       uses: docker/build-push-action@v5
