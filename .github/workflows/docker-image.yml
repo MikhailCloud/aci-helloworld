@@ -25,16 +25,24 @@ jobs:
       uses: buildpacks/github-actions/setup-pack@v5.0.0
 
     - name: pack build
+      id: buildpack
       run: |
-          # pack config default-builder gcr.io/buildpacks.builder:v1
+          echo 'Attempting to install the pack CLI'
+          curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${tgzSuffix}.tgz" | tar -C /usr/local/bin/ --no-same-owner -xzv pack
+
+          echo 'Setting the Oryx++ Builder as the default builder via the pack CLI'
+          pack config default-builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
           
-          # curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${tgzSuffix}.tgz" | 'tar -C /usr/local/bin/ --no-same-owner -xzv pack
+          echo 'Attempting to enable experimental features for the pack CLI'
           pack config experimental true
+          
           pack build ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} --path ${{ env.SOURCE_CODE_DIRECTORY }} --builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
+
+          
           # pack --publish  ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
-    
-
+    - name: Show Output
+      run: echo ${{ steps.buildpack.outputs }}
     
 
     # - name: Running Oryx to generate a Dockerfile
