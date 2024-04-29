@@ -10,6 +10,8 @@ env:
   EVOAR_URI: demo1204.cr.cloud.ru
   SOURCE_CODE_DIRECTORY: 'app'
   ORYX_CLI_IMAGE: 'mcr.microsoft.com/oryx/cli:builder-debian-bullseye-20230926.1'
+  old: 'mcr.microsoft.com/oryx/cli:builder-debian-buster-20230208.1'
+  old2: 'mcr.microsoft.com/oryx/builder:20230208.1'
   RUNTIME_STACK: ''
   ORYX_BULLSEYE_BUILDER_IMAGE: 'mcr.microsoft.com/oryx/builder:debian-bullseye-20240124.1'
   DOCKERFILE_PATH: 'app/Dockerfile'
@@ -24,12 +26,13 @@ jobs:
     - name: Install pack CLI on non-Windows runner
       if: ${{ runner.os != 'Windows' && env.SOURCE_CODE_DIRECTORY != ''}}
       shell: bash
-      run: (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.27.0/pack-v0.27.0-${{ runner.os }}.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
+      run: (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${{ runner.os }}.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
 
     - name: Set Oryx++ Builder as default builder
       if: ${{ env.SOURCE_CODE_DIRECTORY != '' }}
       shell: bash
-      run: pack config default-builder mcr.microsoft.com/oryx/builder:20230208.1
+      run: pack config default-builder ${{env.ORYX_BULLSEYE_BUILDER_IMAGE}} 
+      
       
     - name: Determine runtime stack if not provided
       if: ${{ env.SOURCE_CODE_DIRECTORY != '' && env.RUNTIME_STACK == '' }}
@@ -38,7 +41,7 @@ jobs:
         docker run \
           --rm \
           -v ${{ env.SOURCE_CODE_DIRECTORY }}:/app \
-          mcr.microsoft.com/oryx/cli:builder-debian-buster-20230208.1 \
+          ${{env.ORYX_CLI_IMAGE}} \
           /bin/bash \
           -c "oryx dockerfile /app | head -n 1 | sed 's/ARG RUNTIME=//' >> /app/oryx-runtime.txt"
         RUNTIME_STACK=$(head -n 1 ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt)
@@ -55,7 +58,7 @@ jobs:
         pack build \
          ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
-          --builder mcr.microsoft.com/oryx/builder:20230208.1 \
+          --builder ${{env.ORYX_BULLSEYE_BUILDER_IMAGE}} \
           --run-image mcr.microsoft.com/oryx/${{ env.RUNTIME_STACK }}
           
     
