@@ -59,7 +59,7 @@ jobs:
          ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
           --builder ${{env.ORYX_BULLSEYE_BUILDER_IMAGE}} \
-          --run-image mcr.microsoft.com/oryx/${{ env.RUNTIME_STACK }}
+          --run-image mcr.microsoft.com/oryx/${{ env.RUNTIME_STACK }}-debian-bullseye
           
     
 
