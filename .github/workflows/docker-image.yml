@@ -15,7 +15,7 @@ env:
   ORYX_BULLSEYE_BUILDER_IMAGE: 'mcr.microsoft.com/oryx/builder:debian-bullseye-20240124.1'
   ORYX_BOOKWORM_BUILDER_IMAGE: 'mcr.microsoft.com/oryx/builder:debian-bookworm-20240124.1'
   RUNTIME_STACK: 'node:16'
-  DOCKERFILE_PATH: 'app/Dockerfile'
+  DOCKERFILE_PATH: ''
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,6 +23,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Evolution Artifact Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.EVOAR_URI }}
+        username: ${{ secrets.EVOAR_KEYID }}
+        password: ${{ secrets.EVOAR_KEYSECRET }}
 
     - name: Install pack CLI on non-Windows runner
       if: ${{ runner.os != 'Windows' && env.SOURCE_CODE_DIRECTORY != ''}}
@@ -50,6 +57,7 @@ jobs:
         rm ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt
         
     - name: Create runnable application image using Oryx++ Builder
+      id: buildpack
       if: ${{ env.SOURCE_CODE_DIRECTORY != ''}}
       shell: bash
       run: |
@@ -60,19 +68,14 @@ jobs:
          ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
           --builder ${{env.ORYX_BULLSEYE_BUILDER_IMAGE}} \
-          
+        docker push ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }}
     
 
     - name: Show Output
       run: echo ${{ steps.buildpack.outputs }}
   
 
-    - name: Log in to Evolution Artifact Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ${{ env.EVOAR_URI }}
-        username: ${{ secrets.EVOAR_KEYID }}
-        password: ${{ secrets.EVOAR_KEYSECRET }}
+    
 
     - name: Check for existing Dockerfile in application source
       if: ${{ env.DOCKERFILE_PATH == '' }}
