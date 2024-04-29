@@ -9,6 +9,7 @@ on:
 env:
   EVOAR_URI: demo1204.cr.cloud.ru
   SOURCE_CODE_DIRECTORY: app
+  ORYX_BULLSEYE_BUILDER_IMAGE: 'mcr.microsoft.com/oryx/builder:debian-bullseye-20240124.1'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,7 +27,7 @@ jobs:
     - name: pack build
       run: |
           # pack config default-builder gcr.io/buildpacks.builder:v1
-          pack build ${{ env.SOURCE_CODE_DIRECTORY }}
+          pack build "imageToDeploy" --path ${{ env.SOURCE_CODE_DIRECTORY }} --builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
           # pack --publish  ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
     
