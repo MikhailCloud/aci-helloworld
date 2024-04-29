@@ -80,7 +80,7 @@ jobs:
         
     - name: Building image and pushing to registry using Docker
       run: |
-          docker build . -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f ${{env.DOCKERFILE_PATH}} ${{ env.SOURCE_CODE_DIRECTORY }}
+          docker build -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f ${{env.DOCKERFILE_PATH}} ${{ env.SOURCE_CODE_DIRECTORY }}
           
     - name: Build and push Backend container image to cloud evolution registry
       uses: docker/build-push-action@v5
