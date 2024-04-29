@@ -50,7 +50,7 @@ jobs:
         pack build \
          ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
-          --builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE}} \
+          --builder cormtestacr.azurecr.io/builder:latest \
           --run-image mcr.microsoft.com/oryx/${{ env.RUNTIME_STACK }}
           
     - name: pack build
