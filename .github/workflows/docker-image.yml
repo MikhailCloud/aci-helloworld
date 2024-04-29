@@ -10,6 +10,7 @@ env:
   EVOAR_URI: demo1204.cr.cloud.ru
   SOURCE_CODE_DIRECTORY: app
   ORYX_CLI_IMAGE: 'mcr.microsoft.com/oryx/cli:builder-debian-bullseye-20230926.1'
+  RUNTIME_STACK: 'nodejs'
   ORYX_BULLSEYE_BUILDER_IMAGE: 'mcr.microsoft.com/oryx/builder:debian-bullseye-20240124.1'
 jobs:
   build:
@@ -25,11 +26,21 @@ jobs:
     - name: The setup-pack action adds pack to the environment.
       uses: buildpacks/github-actions/setup-pack@v5.0.0
 
+    - name: Create runnable application image using Oryx++ Builder
+      if: ${{ env.SOURCE_CODE_DIRECTORY != ''}}
+      shell: bash
+      run: |
+        pack build \
+         ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
+          --path ${{ env.SOURCE_CODE_DIRECTORY }} \
+          --builder mcr.microsoft.com/oryx/builder:20230208.1 \
+          --run-image mcr.microsoft.com/oryx/${{ env.RUNTIME_STACK }}
+          
     - name: pack build
       id: buildpack
       run: |
-          pack config default-builder gcr.io/buildpacks.builder:v1
-          pack build ${{ env.SOURCE_CODE_DIRECTORY }}
+          # pack config default-builder gcr.io/buildpacks.builder:v1
+          # pack build ${{ env.SOURCE_CODE_DIRECTORY }}
           # echo 'Attempting to install the pack CLI'
           # curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${tgzSuffix}.tgz" | tar -C /usr/local/bin/ --no-same-owner -xzv pack
 
