@@ -105,7 +105,7 @@ jobs:
      
     - name: Building image and pushing to registry using Docker
       run: |
-          docker build . -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f ${{ steps.oryx.outputs.dockerfile-path }}
+          docker build . -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f ${{ env.SOURCE_CODE_DIRECTORY }}
           
     - name: Build and push Backend container image to cloud evolution registry
       uses: docker/build-push-action@v5
@@ -114,5 +114,5 @@ jobs:
         tags: ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }}
         platform: linux/amd64
         provenance: false
-        file: ${{ steps.oryx.outputs.dockerfile-path }}
+        file: ${{ env.SOURCE_CODE_DIRECTORY }}
         context: ./
