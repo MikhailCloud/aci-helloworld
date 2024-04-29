@@ -27,7 +27,7 @@ jobs:
     - name: pack build
       run: |
           # pack config default-builder gcr.io/buildpacks.builder:v1
-          pack build "imageToDeploy" --path ${{ env.SOURCE_CODE_DIRECTORY }} --builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
+          pack build ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} --path ${{ env.SOURCE_CODE_DIRECTORY }} --builder ${{ env.ORYX_BULLSEYE_BUILDER_IMAGE }}
           # pack --publish  ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
 
     
