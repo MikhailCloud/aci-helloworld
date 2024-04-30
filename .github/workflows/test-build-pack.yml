@@ -36,7 +36,7 @@ jobs:
           REPO: ${{ env.EVOAR_URI }}/helloworldpack:build${{ github.sha }}
         run: |
           #!/usr/bin/env bash
-          pack build --path app --builder heroku/buildpacks:20 --publish ${REPO}
+          pack build --path app --builder heroku/buildpacks:latest --publish ${REPO}
     
     #- uses: actions/checkout@v4
     
