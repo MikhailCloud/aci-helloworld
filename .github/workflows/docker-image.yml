@@ -69,6 +69,9 @@ jobs:
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
           --builder ${{env.ORYX_BULLSEYE_BUILDER_IMAGE}} \
 
+        pwd \
+        ls /workspace/oryx-output \
+
     - name: Show Output
       run: echo ${{ steps.buildpack.outputs }}
 
