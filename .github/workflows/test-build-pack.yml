@@ -6,7 +6,8 @@ on:
     paths:
       - '!.github/workflows/**'
       - '.github/workflows/test-build-pack.yml'
-
+env:
+  EVOAR_URI: demo1204.cr.cloud.ru
 jobs:
 
   build:
@@ -25,7 +26,7 @@ jobs:
           REPO: docker.io/mikhail2k15 
         run: |
           #!/usr/bin/env bash
-          pack build test_img --path ./app --builder heroku/buildpacks:20 
+          pack build ${{ env.EVOAR_URI }}/helloworldpack:build${{ github.sha }} --path /app --builder heroku/buildpacks:20 --publish ${{ env.EVOAR_URI }}/helloworldpack:build${{ github.sha }}
     
     #- uses: actions/checkout@v4
     
