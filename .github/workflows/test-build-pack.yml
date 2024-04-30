@@ -25,7 +25,7 @@ jobs:
           REPO: docker.io/mikhail2k15 
         run: |
           #!/usr/bin/env bash
-          pack build --path ./app --builder heroku/buildpacks:20 
+          pack build test_img --path ./app --builder heroku/buildpacks:20 
     
     #- uses: actions/checkout@v4
     
