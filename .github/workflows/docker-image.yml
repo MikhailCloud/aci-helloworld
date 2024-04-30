@@ -43,7 +43,7 @@ jobs:
       
       
     - name: Determine runtime stack if not provided
-      if: ${{ env.SOURCE_CODE_DIRECTORY != '' && env.RUNTIME_STACK == '' }}
+      if: ${{ env.SOURCE_CODE_DIRECTORY != ''  }}
       shell: bash
       run: |
         docker run \
@@ -52,7 +52,10 @@ jobs:
           ${{env.ORYX_CLI_IMAGE}} \
           /bin/bash \
           -c "oryx dockerfile /app | head -n 1 | sed 's/ARG RUNTIME=//' >> /app/oryx-runtime.txt"
-        RUNTIME_STACK=$(head -n 1 ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt)
+        echo "pwd ls" \
+        pwd \
+        ls \
+        RUNTIME_STACK=$(head -n 1 ${{ env.SOURCE_CODE_DIRECTORY }}/workspace/oryx-output/oryx-runtime.txt)
         echo "RUNTIME_STACK=${RUNTIME_STACK}" >> $GITHUB_ENV
         rm ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt
         
