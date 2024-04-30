@@ -68,14 +68,9 @@ jobs:
          ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} \
           --path ${{ env.SOURCE_CODE_DIRECTORY }} \
           --builder ${{env.ORYX_BULLSEYE_BUILDER_IMAGE}} \
-        
-    
 
     - name: Show Output
       run: echo ${{ steps.buildpack.outputs }}
-  
-
-    
 
     - name: Check for existing Dockerfile in application source
       if: ${{ env.DOCKERFILE_PATH == '' }}
@@ -89,12 +84,4 @@ jobs:
           docker push ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }}
           # docker build -t ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }} -f ${{env.DOCKERFILE_PATH}} ${{ env.SOURCE_CODE_DIRECTORY }}
           
-    - name: Build and push Backend container image to cloud evolution registry
-      uses: docker/build-push-action@v5
-      with:
-        push: true
-        tags: ${{ env.EVOAR_URI }}/helloworld:build${{ github.sha }}
-        platform: linux/amd64
-        provenance: false
-        file: ${{ env.SOURCE_CODE_DIRECTORY }}
-        context: ./
+
