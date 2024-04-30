@@ -1,0 +1,28 @@
+name: Test Build Pack
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - '!.github/workflows/**'
+      - '.github/workflows/test-build-pack.yml'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: package
+        shell: bash
+        env: 
+          REPO: docker.io/mikhail2k15 
+        run: |
+          #!/usr/bin/env bash
+          pack build --path ./app --builder heroku/buildpacks:20 
+    
+    #- uses: actions/checkout@v4
+    
+    #- name: Build the Docker image
+    #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
