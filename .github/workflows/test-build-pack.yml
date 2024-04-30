@@ -20,13 +20,20 @@ jobs:
         shell: bash
         run: (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.31.0/pack-v0.31.0-${{ runner.os }}.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
 
+      - name: Log in to Evolution Artifact Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.EVOAR_URI }}
+          username: ${{ secrets.EVOAR_KEYID }}
+          password: ${{ secrets.EVOAR_KEYSECRET }}
+        
       - id: package
         shell: bash
         env: 
-          REPO: docker.io/mikhail2k15 
+          REPO: ${{ env.EVOAR_URI }}/helloworldpack:build${{ github.sha }}
         run: |
           #!/usr/bin/env bash
-          pack build ${{ env.EVOAR_URI }}/helloworldpack:build${{ github.sha }} --path /app --builder heroku/buildpacks:20 --publish ${{ env.EVOAR_URI }}/helloworldpack:build${{ github.sha }}
+          pack build ${REPO} --path /app --builder heroku/buildpacks:20 --publish ${REPO}
     
     #- uses: actions/checkout@v4
     
