@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    # - uses: actions/checkout@v4
     # - uses: docker/setup-buildx-action@v3
 
     - name: Log in to Evolution Artifact Registry
@@ -52,10 +52,9 @@ jobs:
           ${{env.ORYX_CLI_IMAGE}} \
           /bin/bash \
           -c "oryx dockerfile /app | head -n 1 | sed 's/ARG RUNTIME=//' >> /app/oryx-runtime.txt"
-        echo "pwd ls" \
-        pwd \
-        ls \
-        RUNTIME_STACK=$(head -n 1 ${{ env.SOURCE_CODE_DIRECTORY }}/workspace/oryx-output/oryx-runtime.txt)
+        
+        ${{ github.workspace }}
+        RUNTIME_STACK=$(head -n 1 ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt)
         echo "RUNTIME_STACK=${RUNTIME_STACK}" >> $GITHUB_ENV
         rm ${{ env.SOURCE_CODE_DIRECTORY }}/oryx-runtime.txt
         
