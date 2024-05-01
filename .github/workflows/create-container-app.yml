@@ -58,7 +58,7 @@ jobs:
                   }
               },
               "timeout": "600s",
-              "image": "$(registry_uri)/helloworld@sha256:6bb368106f10ed800455d21da58e8d88a23da8f44fc428b9520c243b1e376fdc",
+              "image": "${{ env.registry_uri }}/helloworld@sha256:6bb368106f10ed800455d21da58e8d88a23da8f44fc428b9520c243b1e376fdc",
               "port": 8080,
               "command": "[]",
               "command_args": "[]",
