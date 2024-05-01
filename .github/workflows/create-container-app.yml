@@ -11,17 +11,12 @@ env:
   registry_uri: 'cr.cloud.ru/a360ece4-3fef-4d69-b9f9-8f55a43eeaf4' # 'import.cr.cloud.ru'
   image_name: 'aspnetapp@sha256:079d0f3df65893ef8a2bcf65108781d8fa7a2e3dd2f2606159d376a78026c6d0'
   project_id: '06363f30-bde4-41a2-a96f-398bf8bd830e'
-  ca_name: 'demoapp123456789'
+  ca_name: 'demoapp1234567890'
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-
-
-    - name: get access token
+    - name: get access token & create container app
       shell: bash
       run: | 
        # https://cloud.ru/ru/docs/kubernetes-evolution/ug/topics/api-ref__authentication.html 
