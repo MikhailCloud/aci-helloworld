@@ -37,8 +37,8 @@ jobs:
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
         --data-raw '{ 
-              "project_id": "$(project_id)",
-              "name": "$(ca_name)",
+              "project_id": "${{ env.project_id}}",
+              "name": "${{ env.ca_name }}",
               "resources": {
                   "limits": {
                       "cpu": "0.1",
