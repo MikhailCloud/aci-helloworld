@@ -54,8 +54,8 @@ jobs:
                   "min_instance_count": 0,
                   "max_instance_count": 1,
                   "rule": {
-                      "type": "rps",
-                      "value": 200
+                      "type": "cuncurrency",
+                      "value": 10
                   }
               },
               "timeout": "600s",
@@ -63,8 +63,7 @@ jobs:
               "port": 8080,
               "command": "[]",
               "command_args": "[]",
-              "protocol": "http_1",
-              "log_group_id": "10d58b5b-4093-4064-8e5e-4498d2f19833"
+              "protocol": "http_1"
           }'
         
       env:
