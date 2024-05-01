@@ -10,7 +10,7 @@ env:
   public_api: 'https://containers.api.cloud.ru/v1beta/containers'
   registry_uri: 'cr.cloud.ru/9719687e-d9a4-446f-9856-e3d8cc863b52'
   project_id: '06363f30-bde4-41a2-a96f-398bf8bd830e'
-  ca_name: 'demoapp1234'
+  ca_name: 'demoapp123456789'
 jobs:
 
   build:
