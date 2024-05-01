@@ -10,7 +10,7 @@ env:
   public_api: 'https://containers.api.cloud.ru/v1beta/containers'
   registry_uri: 'cr.cloud.ru/9719687e-d9a4-446f-9856-e3d8cc863b52'
   project_id: '06363f30-bde4-41a2-a96f-398bf8bd830e'
-  ca_name: 'demoapp123'
+  ca_name: 'demoapp1234'
 jobs:
 
   build:
@@ -23,6 +23,7 @@ jobs:
     - name: get access token
       shell: bash
       run: | 
+       # https://cloud.ru/ru/docs/kubernetes-evolution/ug/topics/api-ref__authentication.html 
         ACCESS_TOKEN=$(curl --data-urlencode "grant_type=client_credentials" \
         --data-urlencode "client_id=$KEYID" \
         --data-urlencode "client_secret=$KEYSECRET" \
@@ -36,8 +37,8 @@ jobs:
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
         --data-raw '{ 
-              "project_id": "06363f30-bde4-41a2-a96f-398bf8bd830e",
-              "name": "public-api-test",
+              "project_id": "$(project_id)",
+              "name": "$(ca_name)",
               "resources": {
                   "limits": {
                       "cpu": "0.1",
