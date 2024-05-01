@@ -53,10 +53,6 @@ jobs:
               "scaling": {
                   "min_instance_count": 0,
                   "max_instance_count": 1,
-                  "rule": {
-                      "type": "cuncurrency",
-                      "value": 10
-                  }
               },
               "timeout": "600s",
               "image": "${{ env.registry_uri }}/${{ env.image_name }}",
