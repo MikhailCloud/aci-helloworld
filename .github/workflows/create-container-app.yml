@@ -57,6 +57,9 @@ jobs:
               "protocol": "http_1"
           }'
 
+          curl -X DELETE "https://containers.api.cloud.ru/v1beta/containers?project_id=${{ env.project_id}}&id=ef291e9f-0d36-48fa-a382-b297310acafe" \
+               -H 'Authorization: Bearer $TOKEN'
+
           curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
