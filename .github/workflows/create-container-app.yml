@@ -58,7 +58,8 @@ jobs:
           }'
 
         # delete eca
-          curl --location --request DELETE $public_api?project_id=$project_id&id=ef291e9f-0d36-48fa-a382-b297310acafe --header "Authorization: Bearer $ACCESS_TOKEN" \
+          curl --location --request DELETE $public_api?project_id=$project_id&id=ef291e9f-0d36-48fa-a382-b297310acafe \
+                --header "Authorization: Bearer $ACCESS_TOKEN" \
 
           curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
