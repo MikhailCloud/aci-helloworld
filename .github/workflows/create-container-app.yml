@@ -11,7 +11,7 @@ env:
   registry_uri: 'cr.cloud.ru/a360ece4-3fef-4d69-b9f9-8f55a43eeaf4' # 'import.cr.cloud.ru'
   image_name: 'aspnetapp@sha256:079d0f3df65893ef8a2bcf65108781d8fa7a2e3dd2f2606159d376a78026c6d0'
   project_id: '06363f30-bde4-41a2-a96f-398bf8bd830e'
-  ca_name: 'demoapp01234567890'
+  ca_name: 'demoapp012345678901'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,7 +29,7 @@ jobs:
         
          echo "ACCESS_TOKEN==$ACCESS_TOKEN" \
 
-        curl --location --request PATCH $public_api \
+        curl --location $public_api \
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
         --data-raw '{ 
@@ -48,6 +48,34 @@ jobs:
               "scaling": {
                   "min_instance_count": 0,
                   "max_instance_count": 1,
+              },
+              "timeout": "600s",
+              "image": "${{ env.registry_uri }}/${{ env.image_name }}",
+              "port": 8080,
+              "command": "[]",
+              "command_args": "[]",
+              "protocol": "http_1"
+          }'
+
+          curl --location --request PATCH $public_api \
+        --header 'Content-Type: application/json' \
+        --header "Authorization: Bearer $ACCESS_TOKEN" \
+        --data-raw '{ 
+              "project_id": "${{ env.project_id}}",
+              "name": "${{ env.ca_name }}",
+              "resources": {
+                  "limits": {
+                      "cpu": "0.1",
+                      "memory": "256Mi"
+                  },
+                  "requests": {
+                      "cpu": "0.1",
+                      "memory": "256Mi"
+                  }
+              },
+              "scaling": {
+                  "min_instance_count": 0,
+                  "max_instance_count": 5,
               },
               "timeout": "600s",
               "image": "${{ env.registry_uri }}/${{ env.image_name }}",
