@@ -27,9 +27,9 @@ jobs:
         | jq -r '.access_token')
 
         
-         echo "ACCESS_TOKEN==$ACCESS_TOKEN" \
+        echo "ACCESS_TOKEN==$ACCESS_TOKEN" \
 
-echo 'delete eca'
+        echo 'delete eca' \
 
         curl --location --request DELETE $public_api/4c9c5b61-441b-4ad9-8b10-d3411ced4468?project_id=06363f30-bde4-41a2-a96f-398bf8bd830e \
         --header 'Content-Type: application/json' \
@@ -66,8 +66,8 @@ echo 'delete eca'
 
           
           
-        echo 'update eca' 
-          curl --location --request PATCH $public_api \
+        echo 'update eca' \
+        curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
         --data-raw '{ 
