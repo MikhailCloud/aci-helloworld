@@ -11,7 +11,7 @@ env:
   registry_uri: 'cr.cloud.ru/a360ece4-3fef-4d69-b9f9-8f55a43eeaf4' # 'import.cr.cloud.ru'
   image_name: 'aspnetapp@sha256:079d0f3df65893ef8a2bcf65108781d8fa7a2e3dd2f2606159d376a78026c6d0'
   project_id: '06363f30-bde4-41a2-a96f-398bf8bd830e'
-  ca_name: 'demoapp012345678901'
+  ca_name: 'demoapp0123456789011'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
           }'
 
           curl -X DELETE "https://containers.api.cloud.ru/v1beta/containers?project_id=${{ env.project_id}}&id=ef291e9f-0d36-48fa-a382-b297310acafe" \
-               -H 'Authorization: Bearer $TOKEN'
+               -H 'Authorization: Bearer $ACCESS_TOKEN'
 
           curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
