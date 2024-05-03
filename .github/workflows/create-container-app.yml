@@ -29,7 +29,7 @@ jobs:
         
          echo "ACCESS_TOKEN==$ACCESS_TOKEN" \
 
-        curl --location $public_api \
+        curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
         --data-raw '{ 
