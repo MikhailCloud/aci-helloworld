@@ -58,8 +58,9 @@ jobs:
           }'
 
         # delete eca
-          curl --location --request DELETE $public_api?project_id=$project_id&id=ef291e9f-0d36-48fa-a382-b297310acafe \
-                --header "Authorization: Bearer $ACCESS_TOKEN" \
+          curl -X DELETE "https://containers.api.cloud.ru/v1beta/containers/ef291e9f-0d36-48fa-a382-b297310acafe?project_id=06363f30-bde4-41a2-a96f-398bf8bd830e" \ 
+          -H 'Authorization: Bearer $ACCESS_TOKEN'
+          
         № update eca
           curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
