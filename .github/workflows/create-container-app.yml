@@ -60,6 +60,7 @@ jobs:
               "image": "${{ env.registry_uri }}/${{ env.image_name }}",
               "port": 8080,
               "command": "[]",
+              "external": true,
               "command_args": "[]",
               "protocol": "http_1"
           }'
