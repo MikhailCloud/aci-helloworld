@@ -91,6 +91,7 @@ jobs:
               "timeout": "600s",
               "image": "${{ env.registry_uri }}/${{ env.image_name }}",
               "port": 8080,
+              "external": true,
               "command": "[]",
               "command_args": "[]",
               "protocol": "http_1"
