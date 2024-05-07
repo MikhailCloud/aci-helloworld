@@ -35,6 +35,8 @@ jobs:
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
 
+
+        echo 'create eca' \
         
         curl --location $public_api \
         --header 'Content-Type: application/json' \
@@ -67,7 +69,8 @@ jobs:
 
           
           
-        echo 'update ECA'
+        echo 'update ECA' \
+        
         curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
