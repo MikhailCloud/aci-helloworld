@@ -67,7 +67,7 @@ jobs:
 
           
           
-        echo 'update ECA ${{ env.ca_name }}'
+        echo 'update ECA'
         curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
         --header "Authorization: Bearer $ACCESS_TOKEN" \
