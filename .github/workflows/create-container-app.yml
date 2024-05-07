@@ -1,6 +1,7 @@
 name: Create Container App
 
 on:
+  workflow_dispatch:
   push:
     paths:
      - '!.github/workflows/**'
