@@ -70,7 +70,7 @@ jobs:
 
           
           
-        echo 'update ECA' \
+        echo 'update ECA' test patch \
         
         curl --location --request PATCH $public_api \
         --header 'Content-Type: application/json' \
