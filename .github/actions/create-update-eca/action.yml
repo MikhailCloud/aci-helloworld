@@ -34,6 +34,8 @@ runs:
         echo 'ACCESS_TOKEN: ' $ACCESS_TOKEN
 
         echo 'Start creating ECA...'
+
+        public_api = 'https://containers.api.cloud.ru/v1beta/containers' # current beta endpoint
         
         curl --location $public_api \
         --header 'Content-Type: application/json' \
