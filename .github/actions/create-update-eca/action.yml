@@ -1,39 +1,70 @@
-name: "Attach Artifacts"
-description: "Attach Artifacts using oras"
+name: "Create or Update Evolution Container App"
+description: "Позволяет создать или обновить существующий Evolution Container App в облаке Cloud.ru Evolution"
 
 inputs:
-  artifact:
-    description: "Full Path to artifact to be signed (usually container Image or SBOM) with tag"
+  client_id:
+    description: "https://cloud.ru/ru/docs/kubernetes-evolution/ug/topics/api-ref__authentication.html"
     required: true
-  media_type:
-    description: "Type of artifact media"
+  client_secret:
     required: true
-  subject_img:
-    description: "Full path of subject image with tag"
+  registry_uri:
+    description: "URI реестра в формате cr.cloud.ru/<ид_реестра>. Например: 'cr.cloud.ru/a360ece4-3fef-4d69-b9f9-8f55a43eeaf4' == 'import.cr.cloud.ru'"
     required: true
-
+  image_name: 
+    description: "Имя образа в реестре Evolution Artifact Registry. Например: 'aspnetapp@sha256:079d0f3df65893ef8a2bcf65108781d8fa7a2e3dd2f2606159d376a78026c6d0'"
+    required: true
+  project_id: 
+    description: "ИД проекта в ЛК. Например '06363f30-bde4-41a2-a96f-398bf8bd830e'"
+    required: true
+  name:
+    description: "Уникальное имя Evoution Container App. Например 'mibontest-2024'"
+    required: true
 runs:
   using: "composite"
   steps:
-    - name: Attach artifact and return digest
+    - name: Create Evoution Container App
       shell: bash
       run: |
-        if [[ -z $ARTIFACT_TYPE ]]; then
-          case $MEDIA_TYPE in
-            application/spdx+json)
-              ARTIFACT_TYPE=org.example.sbom.v0
-              ;;
-            application/sarif+json)
-              ARTIFACT_TYPE=org.example.sarif.v0
-              ;;
-          esac
-        fi
-        ORAS_OUTPUT=$(oras attach $IMAGE $ARTIFACT:$MEDIA_TYPE --artifact-type $ARTIFACT_TYPE)
-        echo 'ORAS output: ' $ORAS_OUTPUT
-        DIGEST_VALUE=$(echo "$ORAS_OUTPUT" | grep -o -P '(?<=Digest: )sha256:\w*') # this should be the final raw digest value
-        echo "PUSHED_DIGEST=$DIGEST_VALUE" >> $GITHUB_ENV
-        echo 'Digest value: ' $DIGEST_VALUE
+        ACCESS_TOKEN=$(curl --data-urlencode "grant_type=client_credentials" \
+        --data-urlencode "client_id=$KEYID" \
+        --data-urlencode "client_secret=$KEYSECRET" \
+        "https://auth.iam.sbercloud.ru/auth/system/openid/token" \
+        | jq -r '.access_token')
+        
+        echo 'ACCESS_TOKEN: ' $ACCESS_TOKEN
+
+        echo 'Start creating ECA...'
+        
+        curl --location $public_api \
+        --header 'Content-Type: application/json' \
+        --header "Authorization: Bearer $ACCESS_TOKEN" \
+        --data-raw '{ 
+              "project_id": "${{ inputs.project_id}}",
+              "name": "${{ inputs.name }}",
+              "resources": {
+                  "limits": {
+                      "cpu": "0.1",
+                      "memory": "256Mi"
+                  },
+                  "requests": {
+                      "cpu": "0.1",
+                      "memory": "256Mi"
+                  }
+              },
+              "scaling": {
+                  "min_instance_count": 0,
+                  "max_instance_count": 1,
+              },
+              "timeout": "600s",
+              "image": "${{ inputs.registry_uri }}/${{ inputs.image_name }}",
+              "port": 8080,
+              "command": "[]",
+              "external": true,
+              "command_args": "[]",
+              "protocol": "http_1"
+          }'
+        echo 'End creating ECA'
       env:
-        ARTIFACT: ${{ inputs.artifact }}
-        IMAGE: ${{ inputs.subject_img }}
-        MEDIA_TYPE: ${{ inputs.media_type }}
+        KEYID: ${{ inputs.client_id }}
+        KEYSECRET: ${{ inputs.client_secret }} 
+        
