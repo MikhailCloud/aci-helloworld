@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: get some vars
+        run: |
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
         
       - name: Create Evolution Container App
         uses: ./.github/actions/create-update-eca
@@ -29,4 +33,4 @@ jobs:
           registry_uri: ${{ env.registry_uri }}
           image_name: ${{ env.image_name }}
           project_id: ${{ env.project_id }}
-          name: ${{ env.ca_name }}-${{GITHUB_SHA::5}}
+          name: ${{ env.ca_name }}-${{env.git_hash}}
