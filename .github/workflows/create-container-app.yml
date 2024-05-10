@@ -23,7 +23,7 @@ jobs:
 
       - name: get some vars
         run: |
-          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
         
       - name: Create Evolution Container App
         uses: ./.github/actions/create-update-eca
@@ -33,4 +33,4 @@ jobs:
           registry_uri: ${{ env.registry_uri }}
           image_name: ${{ env.image_name }}
           project_id: ${{ env.project_id }}
-          name: ${{ env.ca_name }}-${{env.git_hash}}
+          name: ${{ env.ca_name }}-${{env.sha_short}}
