@@ -18,7 +18,8 @@ inputs:
     required: true
   name:
     description: "Уникальное имя Evoution Container App. Например 'mibontest-2024'"
-    required: true
+    required: false
+    default: 'evolution-container-app-${{ github.run_id }}-${{ github.run_attempt }}'
   port:
     description: "target port > 1000"
     required: true
