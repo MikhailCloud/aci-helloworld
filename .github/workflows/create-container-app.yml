@@ -31,7 +31,7 @@ jobs:
           client_secret:  ${{ secrets.EVOAR_KEYSECRET }}
           project_id: ${{ env.project_id }}
           registry_uri: ${{ env.registry_uri }}
-          image_name: ${{ env.ca_name }}-${{env.sha_short}}
+          #image_name: ${{ env.ca_name }}-${{env.sha_short}}
           source_path: app
           name: ${{ env.ca_name }}-${{env.sha_short}}
           port: 8080
