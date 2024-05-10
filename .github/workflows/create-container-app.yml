@@ -26,7 +26,7 @@ jobs:
           echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
         
       - name: Create Evolution Container App
-        uses: ./.github/actions/create-update-eca
+        uses: CLOUDdotRu/evo-container-app-action@main
         with:
           client_id: ${{ secrets.EVOAR_KEYID }}
           client_secret:  ${{ secrets.EVOAR_KEYSECRET }}
