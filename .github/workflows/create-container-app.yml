@@ -33,5 +33,4 @@ jobs:
           registry_uri: ${{ env.registry_uri }}
           image_name: ${{ env.image_name }}
           project_id: ${{ env.project_id }}
-          name: 'gh-action-app-${{ github.run_id }}-${{ github.run_attempt }}'
           port: 8080
