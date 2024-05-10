@@ -34,3 +34,4 @@ jobs:
           image_name: ${{ env.image_name }}
           project_id: ${{ env.project_id }}
           name: ${{ env.ca_name }}-${{env.sha_short}}
+          port: 8080
