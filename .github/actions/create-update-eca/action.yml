@@ -19,6 +19,9 @@ inputs:
   name:
     description: "Уникальное имя Evoution Container App. Например 'mibontest-2024'"
     required: true
+  port:
+    description: "target port > 1000"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -60,7 +63,7 @@ runs:
               },
               "timeout": "600s",
               "image": "${{ inputs.registry_uri }}/${{ inputs.image_name }}",
-              "port": 8080,
+              "port": "${{ inputs.port }}",
               "command": "[]",
               "external": true,
               "command_args": "[]",
