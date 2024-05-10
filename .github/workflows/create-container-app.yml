@@ -33,5 +33,6 @@ jobs:
           project_id: ${{ env.project_id }}
           registry_uri: ${{ env.registry_uri }}
           image_name: ${{ env.image_name }}
+          source_path: python
           name: ${{ env.ca_name }}-${{env.sha_short}}
           port: 8080
