@@ -18,98 +18,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: get access token & create container app
-      shell: bash
-      run: | 
-       # https://cloud.ru/ru/docs/kubernetes-evolution/ug/topics/api-ref__authentication.html 
-        ACCESS_TOKEN=$(curl --data-urlencode "grant_type=client_credentials" \
-        --data-urlencode "client_id=$KEYID" \
-        --data-urlencode "client_secret=$KEYSECRET" \
-        "https://auth.iam.sbercloud.ru/auth/system/openid/token" \
-        | jq -r '.access_token')
-
-        
-        echo "ACCESS_TOKEN==$ACCESS_TOKEN" \
-
-        echo 'delete eca' \
-
-        curl --location --request DELETE $public_api/4c9c5b61-441b-4ad9-8b10-d3411ced4468?project_id=06363f30-bde4-41a2-a96f-398bf8bd830e \
-        --header 'Content-Type: application/json' \
-        --header "Authorization: Bearer $ACCESS_TOKEN" \
-
-
-        echo 'create eca' \
-        
-        curl --location $public_api \
-        --header 'Content-Type: application/json' \
-        --header "Authorization: Bearer $ACCESS_TOKEN" \
-        --data-raw '{ 
-              "project_id": "${{ env.project_id}}",
-              "name": "${{ env.ca_name }}",
-              "resources": {
-                  "limits": {
-                      "cpu": "0.1",
-                      "memory": "256Mi"
-                  },
-                  "requests": {
-                      "cpu": "0.1",
-                      "memory": "256Mi"
-                  }
-              },
-              "scaling": {
-                  "min_instance_count": 0,
-                  "max_instance_count": 1,
-              },
-              "timeout": "600s",
-              "image": "${{ env.registry_uri }}/${{ env.image_name }}",
-              "port": 8080,
-              "command": "[]",
-              "external": true,
-              "command_args": "[]",
-              "protocol": "http_1"
-          }'
-
-          
-          
-        echo 'update ECA' test patch \
-        
-        curl --location --request PATCH $public_api/311eb426-e585-4032-8062-68421e338e18 \
-        --header 'Content-Type: application/json' \
-        --header "Authorization: Bearer $ACCESS_TOKEN" \
-        --data-raw '{ 
-              "project_id": "${{ env.project_id}}",
-              "name": "${{ env.ca_name }}",
-              "resources": {
-                  "limits": {
-                      "cpu": "0.1",
-                      "memory": "256Mi"
-                  },
-                  "requests": {
-                      "cpu": "0.1",
-                      "memory": "256Mi"
-                  }
-              },
-              "scaling": {
-                  "rule": {
-                    "type": "concurrency",
-                    "value": {
-                        "soft": 100,
-                        "hard": 1
-                    }
-                  },
-                  "min_instance_count": 0,
-                  "max_instance_count": 5,
-              },
-              "timeout": "600s",
-              "image": "${{ env.registry_uri }}/${{ env.image_name }}",
-              "port": 8080,
-              "external": true,
-              "command": "[]",
-              "command_args": "[]",
-              "protocol": "http_1"
-          }'
-        
-      env:
-        KEYID: ${{ secrets.EVOAR_KEYID }}
-        KEYSECRET: ${{ secrets.EVOAR_KEYSECRET }}
-  
+      - name: Create Evolution Container App
+        uses: ./.github/actions/create-update-eca
+        with:
+          client_id: ${{ secrets.EVOAR_KEYID }}
+          client_secret:  ${{ secrets.EVOAR_KEYSECRET }}
+          registry_uri: ${{ env.registry_uri }}
+          image_name: ${{ env.image_name }}
+          project_id: ${{ env.project_id }}
+          name: ${{ env.ca_name }}
