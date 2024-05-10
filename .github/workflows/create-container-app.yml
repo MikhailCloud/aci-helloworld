@@ -1,4 +1,4 @@
-name: Create Container App
+name: Test Create Evolution Container App
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ env:
   registry_uri: 'cr.cloud.ru/a360ece4-3fef-4d69-b9f9-8f55a43eeaf4' # 'import.cr.cloud.ru'
   image_name: 'aspnetapp@sha256:079d0f3df65893ef8a2bcf65108781d8fa7a2e3dd2f2606159d376a78026c6d0'
   project_id: '06363f30-bde4-41a2-a96f-398bf8bd830e'
-  ca_name: 'mibontest-2024'
+  ca_name: 'mibontest'
   container_id: 311eb426-e585-4032-8062-68421e338e18
 jobs:
   build:
@@ -33,4 +33,5 @@ jobs:
           project_id: ${{ env.project_id }}
           registry_uri: ${{ env.registry_uri }}
           image_name: ${{ env.image_name }}
+          name: ${{ env.ca_name }}-${{env.sha_short}}
           port: 8080
