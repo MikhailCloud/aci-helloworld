@@ -30,7 +30,7 @@ jobs:
         with:
           client_id: ${{ secrets.EVOAR_KEYID }}
           client_secret:  ${{ secrets.EVOAR_KEYSECRET }}
+          project_id: ${{ env.project_id }}
           registry_uri: ${{ env.registry_uri }}
           image_name: ${{ env.image_name }}
-          project_id: ${{ env.project_id }}
           port: 8080
