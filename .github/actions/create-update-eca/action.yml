@@ -36,6 +36,7 @@ runs:
         echo 'Start creating ECA...'
 
         public_api = 'https://containers.api.cloud.ru/v1beta/containers' # current beta endpoint
+        echo 'public_api: ' $public_api
         
         curl --location $public_api \
         --header 'Content-Type: application/json' \
