@@ -8,7 +8,6 @@ on:
      - '.github/workflows/create-container-app.yml'
 
 env:
-  public_api: 'https://containers.api.cloud.ru/v1beta/containers'
   registry_uri: 'cr.cloud.ru/a360ece4-3fef-4d69-b9f9-8f55a43eeaf4' # 'import.cr.cloud.ru'
   image_name: 'aspnetapp@sha256:079d0f3df65893ef8a2bcf65108781d8fa7a2e3dd2f2606159d376a78026c6d0'
   project_id: '06363f30-bde4-41a2-a96f-398bf8bd830e'
