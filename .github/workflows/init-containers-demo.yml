@@ -27,7 +27,7 @@ jobs:
       - name: Log in to Evolution Artifact Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.EVOAR_URI }}
+          registry: ${{ env.registry_uri }}
           username: ${{ secrets.EVOAR_KEYID }}
           password: ${{ secrets.EVOAR_KEYSECRET }}
       
