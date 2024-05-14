@@ -40,6 +40,6 @@ jobs:
           push: true
           platforms: linux/amd64
           provenance: false
-          tags: ${{ env.registry_uri }}/nc-init:${{ sha_short }}
+          tags: ${{ env.registry_uri }}/nc-init:${{ env.sha_short }}
           file: init-demo/nc-init/Dockerfile
           context: ./
