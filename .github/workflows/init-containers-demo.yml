@@ -42,5 +42,5 @@ jobs:
           platforms: linux/amd64
           provenance: false
           tags: ${{ env.EVOAR_URI }}/nc-init:${{ env.sha_short }}
-          file: ./init-demo/nc-init/Dockerfile
+          file: ./init-demos/nc-init/Dockerfile
           context: ./
