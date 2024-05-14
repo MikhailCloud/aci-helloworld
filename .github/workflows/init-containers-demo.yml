@@ -5,7 +5,7 @@ on:
   push:
     paths:
      - '!.github/workflows/**'
-     - '.github/workflows/create-container-app.yml'
+     - '.github/workflows/init-containers-demo.yml'
 
 env:
   registry_uri: 'cr.cloud.ru/a360ece4-3fef-4d69-b9f9-8f55a43eeaf4' # 'import.cr.cloud.ru'
@@ -40,6 +40,6 @@ jobs:
           push: true
           platforms: linux/amd64
           provenance: false
-          tags: ${{ env.registry_uri }}/multiarch-test2:${{ sha_short }}
+          tags: ${{ env.registry_uri }}/nc-init:${{ sha_short }}
           file: init-demo/nc-init/Dockerfile
           context: ./
