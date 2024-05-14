@@ -44,3 +44,13 @@ jobs:
           tags: ${{ env.EVOAR_URI }}/nc-init:${{ env.sha_short }}
           file: ./init-demos/nc-init/Dockerfile
           context: ./
+      
+      - name: Build and push container image to cloud evolution registry
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          platforms: linux/amd64
+          provenance: false
+          tags: ${{ env.EVOAR_URI }}/nslookup-init:${{ env.sha_short }}
+          file: ./init-demos/nslookup-init/Dockerfile
+          context: ./
