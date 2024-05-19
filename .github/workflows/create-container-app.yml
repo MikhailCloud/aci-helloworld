@@ -33,18 +33,17 @@ jobs:
           registry_uri: ${{ env.registry_uri }}
           #image_name: ${{ env.ca_name }}-${{env.sha_short}}
           source_path: app
-          name: ${{ env.ca_name }}-nodejs-${{env.sha_short}}
+          name: mibon-create-update-eca-test
           port: 8080
 
-      - name: Create Evolution Container App for .NET Core app
-        uses: CLOUDdotRu/evo-container-app-action@main
-        with:
-          client_id: ${{ secrets.EVOAR_KEYID }}
-          client_secret:  ${{ secrets.EVOAR_KEYSECRET }}
-          project_id: ${{ env.project_id }}
-          registry_uri: ${{ env.registry_uri }}
-          #image_name: ${{ env.ca_name }}-${{env.sha_short}}
-          source_path: dotnet
-          builder: gcr.io/buildpacks/builder
-          name: ${{ env.ca_name }}-dotnet-${{env.sha_short}}
-          port: 8080
+      #- name: Create Evolution Container App for .NET Core app
+      #  uses: CLOUDdotRu/evo-container-app-action@main
+      #  with:
+      #    client_id: ${{ secrets.EVOAR_KEYID }}
+      #    client_secret:  ${{ secrets.EVOAR_KEYSECRET }}
+      #    project_id: ${{ env.project_id }}
+      #    registry_uri: ${{ env.registry_uri }}
+      #    source_path: dotnet
+      #    builder: gcr.io/buildpacks/builder
+      #    name: ${{ env.ca_name }}-dotnet-${{env.sha_short}}
+      #    port: 8080
