@@ -1,0 +1,355 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Container Apps Public API
+    description: Public API for Evolution Container Apps
+    version: v1beta
+paths:
+    /v1beta/containers:
+        get:
+            tags:
+                - Containers
+            description: List available containers
+            operationId: Containers_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pagination.limit
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: project_id
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListContainerResponse'
+            security:
+                - IAM: []
+        post:
+            tags:
+                - Containers
+            description: Create and run container
+            operationId: Containers_Create
+            parameters:
+                - $ref: '#/components/parameters/project_id'
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateContainerRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ContainerResponse'
+            security:
+                - IAM: []
+    /v1beta/containers/{id}:
+        get:
+            tags:
+                - Containers
+            description: Get container details
+            operationId: Containers_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: project_id
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ContainerResponse'
+            security:
+                - IAM: []
+        delete:
+            tags:
+                - Containers
+            description: Delete running container
+            operationId: Containers_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: project_id
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ContainerResponse'
+            security:
+                - IAM: []
+        patch:
+            tags:
+                - Containers
+            description: Update and publish new container version
+            operationId: Containers_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateContainerRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ContainerResponse'
+            security:
+                - IAM: []
+components:
+    schemas:
+        ContainerResponse:
+            type: object
+            properties:
+                id:
+                    type: string
+                project_id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                resources:
+                    $ref: '#/components/schemas/InstanceTypeData'
+                scaling:
+                    $ref: '#/components/schemas/Scaling'
+                timeout:
+                    type: string
+                status:
+                    type: string
+                owner_id:
+                    type: string
+                env:
+                    type: object
+                    additionalProperties:
+                        type: string
+                image:
+                    type: string
+                port:
+                    type: integer
+                    format: uint32
+                command:
+                    type: string
+                command_args:
+                    type: string
+                protocol:
+                    type: string
+                created_at:
+                    type: string
+                updated_at:
+                    type: string
+                published_at:
+                    type: string
+                is_auto_deployed:
+                    type: boolean
+                auto_deploy_pattern:
+                    type: string
+                external:
+                    type: boolean
+                liveness_probe:
+                    type: string
+                readiness_probe:
+                    type: string
+                log_group_id:
+                    type: string
+                public_url:
+                    type: string
+        CreateContainerRequest:
+            type: object
+            properties:
+                project_id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                resources:
+                    $ref: '#/components/schemas/InstanceTypeData'
+                scaling:
+                    $ref: '#/components/schemas/Scaling'
+                timeout:
+                    example: 30s
+                    title: http request timeout in seconds
+                    type: string
+                env:
+                    type: object
+                    additionalProperties:
+                        type: string
+                image:
+                    type: string
+                port:
+                    example: 8000
+                    title: container port
+                    type: number
+                    format: uint32
+                command:
+                    type: string
+                command_args:
+                    type: string
+                protocol:
+                    type: string
+                is_auto_deployed:
+                    type: boolean
+                auto_deploy_pattern:
+                    type: string
+                external:
+                    type: boolean
+                liveness_probe:
+                    type: string
+                readiness_probe:
+                    type: string
+                log_group_id:
+                    type: string
+        InstanceTypeData:
+            type: object
+            properties:
+                limits:
+                    $ref: '#/components/schemas/Resource'
+                requests:
+                    $ref: '#/components/schemas/Resource'
+        ListContainerResponse:
+            type: object
+            properties:
+                total:
+                    type: integer
+                    format: uint32
+                page:
+                    type: integer
+                    format: uint32
+                limit:
+                    type: integer
+                    format: uint32
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ContainerResponse'
+        Resource:
+            type: object
+            properties:
+                cpu:
+                    example: "0.5"
+                    title: cpu resource
+                    type: string
+                memory:
+                    example: "1024Mi"
+                    title: memory resource
+                    type: string
+        Scaling:
+            type: object
+            properties:
+                min_instance_count:
+                    example: 0
+                    title: min instances count
+                    required:
+                        - "true"
+                    type: integer
+                    format: uint32
+                max_instance_count:
+                    example: 1
+                    title: max instances count
+                    required:
+                        - "true"
+                    type: integer
+                    format: uint32
+                rule:
+                    example: {"type": "concurrency", "value": {"soft": 100, "hard": 0}}
+                    title: scaling rule
+                    required:
+                        - "true"
+                    type: object
+        UpdateContainerRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                project_id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                resources:
+                    $ref: '#/components/schemas/InstanceTypeData'
+                scaling:
+                    $ref: '#/components/schemas/Scaling'
+                timeout:
+                    type: string
+                env:
+                    type: object
+                    additionalProperties:
+                        type: string
+                image:
+                    type: string
+                port:
+                    type: integer
+                    format: uint32
+                command:
+                    type: string
+                command_args:
+                    type: string
+                protocol:
+                    type: string
+                is_auto_deployed:
+                    type: boolean
+                auto_deploy_pattern:
+                    type: string
+                external:
+                    type: boolean
+                liveness_probe:
+                    type: string
+                readiness_probe:
+                    type: string
+    parameters:
+        project_id:
+            name: project_id
+            in: query
+            description: active project_id from console
+            required: true
+            schema:
+                type: string
+    securitySchemes:
+        IAM:
+            type: apiKey
+            description: 'Enter the token with the `Bearer: ` prefix, e.g. `Bearer: abcde12345`'
+            name: Authorization
+            in: header
+tags:
+    - name: Containers
